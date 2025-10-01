@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberSecurity Exam Practice - Enhanced</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            min-height: 100vh;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #0288d1;
+        }
+        
+        .header h1 {
+            color: #0288d1;
+            margin-bottom: 10px;
+        }
+        
+        .start-screen {
+            text-align: center;
+            padding: 50px 0;
+        }
+        
+        .start-screen h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .start-screen p {
+            margin-bottom: 30px;
+            color: #666;
+            font-size: 18px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #0288d1;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #0277bd;
+        }
+        
+        .btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .quiz-container {
+            display: none;
+        }
+        
+        .progress-bar {
+            background-color: #e0e0e0;
+            height: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            background-color: #0288d1;
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .question-container {
+            margin-bottom: 30px;
+        }
+        
+        .question {
+            font-size: 18px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .question-image {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .question-image img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .question-type-indicator {
+            background-color: #e3f2fd;
+            color: #0288d1;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            display: inline-block;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        .choices {
+            list-style: none;
+        }
+        
+        .choice {
+            margin-bottom: 15px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .choice:hover {
+            background-color: #e3f2fd;
+            border-color: #0288d1;
+        }
+        
+        .choice.selected {
+            background-color: #bbdefb;
+            border-color: #0288d1;
+        }
+        
+        .choice input[type="radio"],
+        .choice input[type="checkbox"] {
+            margin-right: 15px;
+            transform: scale(1.2);
+        }
+        
+        .choice label {
+            display: block;
+            cursor: pointer;
+            width: 100%;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .explanation {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .explanation.show {
+            display: block;
+        }
+        
+        .explanation h4 {
+            color: #155724;
+            margin-bottom: 10px;
+        }
+        
+        .explanation p {
+            color: #155724;
+        }
+        
+        .results-screen {
+            display: none;
+            text-align: center;
+            padding: 50px 0;
+        }
+        
+        .results-screen h2 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+        
+        .score {
+            font-size: 48px;
+            color: #0288d1;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        .results-details {
+            max-width: 800px;
+            margin: 0 auto 30px;
+            text-align: left;
+        }
+        
+        .results-details h3 {
+            margin-bottom: 15px;
+            color: #d32f2f;
+            text-align: center;
+        }
+        
+        .wrong-question {
+            margin-bottom: 25px;
+            padding: 20px;
+            background-color: #ffebee;
+            border: 1px solid #ffcdd2;
+            border-radius: 8px;
+        }
+        
+        .wrong-question h4 {
+            color: #d32f2f;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        .wrong-question p {
+            margin-bottom: 8px;
+        }
+        
+        .correct-answer {
+            color: #2e7d32;
+            font-weight: bold;
+        }
+        
+        .your-answer {
+            color: #d32f2f;
+            font-weight: bold;
+        }
+        
+        .wrong-question .question-image {
+            margin: 15px 0;
+        }
+        
+        .wrong-question .question-image img {
+            max-width: 300px;
+        }
+        
+        .timer {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            font-size: 18px;
+            font-weight: bold;
+            z-index: 1000;
+        }
+        
+        .loading-message {
+            text-align: center;
+            padding: 50px;
+            font-size: 18px;
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .timer {
+                position: static;
+                margin-bottom: 20px;
+                text-align: center;
+            }
+            
+            .question {
+                font-size: 16px;
+            }
+            
+            .choice {
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>CyberSecurity Exam Practice - Enhanced</h1>
+            <p>CCNA 2: Switching, Routing, and Wireless Essentials</p>
+        </div>
+        
+        <div class="start-screen" id="startScreen">
+            <h2>Welcome to the Enhanced Practice Test</h2>
+            <p>You will be presented with 55 random questions from a pool of 147 questions.</p>
+            <p>Features include: Image support, Multiple choice questions, and Detailed explanations.</p>
+            <button class="btn" onclick="startTest()">Start Test</button>
+        </div>
+        
+        <div class="loading-message" id="loadingMessage" style="display: none;">
+            <p>Loading questions...</p>
+        </div>
+        
+        <div class="quiz-container" id="quizContainer">
+            <div class="progress-bar">
+                <div class="progress" id="progressBar">0%</div>
+            </div>
+            
+            <div class="question-container" id="questionContainer">
+                <div class="question-type-indicator" id="questionTypeIndicator"></div>
+                <div class="question" id="questionText"></div>
+                <div class="question-image" id="questionImage" style="display: none;">
+                    <img id="questionImg" src="" alt="Question Image">
+                </div>
+                <ul class="choices" id="choicesList"></ul>
+                <div class="explanation" id="explanation">
+                    <h4>Explanation:</h4>
+                    <p id="explanationText"></p>
+                </div>
+            </div>
+            
+            <div class="navigation">
+                <button class="btn" id="prevBtn" onclick="previousQuestion()">Previous</button>
+                <span id="questionNumber">Question 1 of 55</span>
+                <button class="btn" id="nextBtn" onclick="nextQuestion()">Next</button>
+            </div>
+        </div>
+        
+        <div class="results-screen" id="resultsScreen">
+            <h2>Test Complete!</h2>
+            <div class="score" id="scoreDisplay">0%</div>
+            <p id="scoreText">You got 0 out of 55 questions correct.</p>
+            
+            <div class="results-details" id="resultsDetails">
+                <h3>Incorrect Answers:</h3>
+                <div id="wrongAnswersList"></div>
+            </div>
+            
+            <button class="btn" onclick="restartTest()">Take Another Test</button>
+        </div>
+    </div>
+    
+    <div class="timer" id="timer">00:00</div>
+    
+    <script>
+        let allQuestions = [];
+        let testQuestions = [];
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let startTime;
+        let timerInterval;
+        
+        // This will be populated with the actual questions data
+        // Placeholder for demonstration - you'll need to embed the questions_fixed.json data here
+        function initializeQuestions() {
+            // For now, show loading message
+            document.getElementById('loadingMessage').style.display = 'block';
+            
+            // In a real implementation, you would embed the questions_fixed.json data here
+            // For demonstration, using a small sample
+            allQuestions = [
+                {
+                    "id": 1,
+                    "question": "Sample question for demonstration",
+                    "image": null,
+                    "choices": ["Choice A", "Choice B", "Choice C", "Choice D"],
+                    "type": "single",
+                    "correct": [0],
+                    "explanation": "This is a sample explanation."
+                }
+            ];
+            
+            document.getElementById('loadingMessage').style.display = 'none';
+            
+            if (allQuestions.length === 0) {
+                alert('No questions loaded. Please ensure the questions data is properly embedded.');
+                return;
+            }
+        }
+        
+        function startTest() {
+            initializeQuestions();
+            
+            // Reset variables
+            currentQuestionIndex = 0;
+            userAnswers = [];
+            
+            // Select 55 random questions (or all if less than 55)
+            const questionCount = Math.min(55, allQuestions.length);
+            testQuestions = selectRandomQuestions(questionCount);
+            
+            // Initialize user answers array
+            for (let i = 0; i < testQuestions.length; i++) {
+                userAnswers.push(null);
+            }
+            
+            // Start timer
+            startTime = new Date();
+            timerInterval = setInterval(updateTimer, 1000);
+            
+            // Hide start screen and show quiz
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('resultsScreen').style.display = 'none';
+            document.getElementById('quizContainer').style.display = 'block';
+            
+            // Display first question
+            displayQuestion();
+        }
+        
+        function selectRandomQuestions(count) {
+            const shuffled = [...allQuestions].sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, count);
+        }
+        
+        function displayQuestion() {
+            const question = testQuestions[currentQuestionIndex];
+            
+            // Update question text
+            document.getElementById('questionText').innerHTML = `${currentQuestionIndex + 1}. ${question.question}`;
+            
+            // Update question type indicator
+            const typeIndicator = document.getElementById('questionTypeIndicator');
+            if (question.type === 'multiple') {
+                typeIndicator.textContent = 'Multiple Choice - Select all that apply';
+                typeIndicator.style.display = 'inline-block';
+            } else {
+                typeIndicator.textContent = 'Single Choice - Select one answer';
+                typeIndicator.style.display = 'inline-block';
+            }
+            
+            // Handle image
+            const questionImage = document.getElementById('questionImage');
+            const questionImg = document.getElementById('questionImg');
+            if (question.image) {
+                questionImg.src = question.image;
+                questionImg.alt = `Image for question ${currentQuestionIndex + 1}`;
+                questionImage.style.display = 'block';
+            } else {
+                questionImage.style.display = 'none';
+            }
+            
+            // Update choices
+            const choicesList = document.getElementById('choicesList');
+            choicesList.innerHTML = '';
+            
+            const inputType = question.type === 'multiple' ? 'checkbox' : 'radio';
+            const inputName = question.type === 'multiple' ? `choice_${currentQuestionIndex}` : 'choice';
+            
+            question.choices.forEach((choice, index) => {
+                const li = document.createElement('li');
+                li.className = 'choice';
+                
+                // Check if this choice was previously selected
+                const isSelected = userAnswers[currentQuestionIndex] && 
+                    (Array.isArray(userAnswers[currentQuestionIndex]) ? 
+                        userAnswers[currentQuestionIndex].includes(index) : 
+                        userAnswers[currentQuestionIndex] === index);
+                
+                if (isSelected) {
+                    li.classList.add('selected');
+                }
+                
+                const inputId = `choice_${currentQuestionIndex}_${index}`;
+                
+                li.innerHTML = `
+                    <label for="${inputId}">
+                        <input type="${inputType}" id="${inputId}" name="${inputName}" value="${index}" 
+                               ${isSelected ? 'checked' : ''}
+                               onchange="selectAnswer(${index})">
+                        ${choice}
+                    </label>
+                `;
+                
+                choicesList.appendChild(li);
+            });
+            
+            // Update progress
+            updateProgress();
+            
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = currentQuestionIndex === 0;
+            document.getElementById('nextBtn').textContent = 
+                currentQuestionIndex === testQuestions.length - 1 ? 'Finish' : 'Next';
+            
+            // Update question number
+            document.getElementById('questionNumber').textContent = 
+                `Question ${currentQuestionIndex + 1} of ${testQuestions.length}`;
+                
+            // Hide explanation
+            document.getElementById('explanation').classList.remove('show');
+        }
+        
+        function selectAnswer(index) {
+            const question = testQuestions[currentQuestionIndex];
+            
+            if (question.type === 'multiple') {
+                // Handle multiple choice
+                if (!Array.isArray(userAnswers[currentQuestionIndex])) {
+                    userAnswers[currentQuestionIndex] = [];
+                }
+                
+                const currentAnswers = userAnswers[currentQuestionIndex];
+                const indexPos = currentAnswers.indexOf(index);
+                
+                if (indexPos > -1) {
+                    // Remove if already selected
+                    currentAnswers.splice(indexPos, 1);
+                } else {
+                    // Add if not selected
+                    currentAnswers.push(index);
+                }
+                
+                // Update visual selection for multiple choice
+                const choices = document.querySelectorAll('.choice');
+                choices.forEach((choice, i) => {
+                    const checkbox = choice.querySelector('input[type="checkbox"]');
+                    if (currentAnswers.includes(i)) {
+                        choice.classList.add('selected');
+                        checkbox.checked = true;
+                    } else {
+                        choice.classList.remove('selected');
+                        checkbox.checked = false;
+                    }
+                });
+            } else {
+                // Handle single choice
+                userAnswers[currentQuestionIndex] = index;
+                
+                // Update visual selection for single choice
+                const choices = document.querySelectorAll('.choice');
+                choices.forEach((choice, i) => {
+                    const radio = choice.querySelector('input[type="radio"]');
+                    if (i === index) {
+                        choice.classList.add('selected');
+                        radio.checked = true;
+                    } else {
+                        choice.classList.remove('selected');
+                        radio.checked = false;
+                    }
+                });
+            }
+            
+            // Show explanation if available
+            if (question.explanation) {
+                document.getElementById('explanationText').textContent = question.explanation;
+                document.getElementById('explanation').classList.add('show');
+            }
+        }
+        
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                displayQuestion();
+            }
+        }
+        
+        function nextQuestion() {
+            if (currentQuestionIndex < testQuestions.length - 1) {
+                currentQuestionIndex++;
+                displayQuestion();
+            } else {
+                // Finish test
+                finishTest();
+            }
+        }
+        
+        function updateProgress() {
+            const answeredCount = userAnswers.filter(a => {
+                if (Array.isArray(a)) {
+                    return a.length > 0;
+                }
+                return a !== null;
+            }).length;
+            const percentage = Math.round((answeredCount / testQuestions.length) * 100);
+            const progressBar = document.getElementById('progressBar');
+            progressBar.style.width = percentage + '%';
+            progressBar.textContent = percentage + '%';
+        }
+        
+        function updateTimer() {
+            const now = new Date();
+            const elapsed = Math.floor((now - startTime) / 1000);
+            const minutes = Math.floor(elapsed / 60);
+            const seconds = elapsed % 60;
+            document.getElementById('timer').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        function finishTest() {
+            // Stop timer
+            clearInterval(timerInterval);
+            
+            // Calculate score
+            let correctCount = 0;
+            const wrongAnswers = [];
+            
+            testQuestions.forEach((question, index) => {
+                const userAnswer = userAnswers[index];
+                const correctAnswer = question.correct;
+                
+                let isCorrect = false;
+                
+                if (question.type === 'multiple') {
+                    // For multiple choice, check if arrays match exactly
+                    if (Array.isArray(userAnswer) && userAnswer.length === correctAnswer.length) {
+                        const sortedUser = [...userAnswer].sort();
+                        const sortedCorrect = [...correctAnswer].sort();
+                        isCorrect = sortedUser.every((val, i) => val === sortedCorrect[i]);
+                    }
+                } else {
+                    // For single choice, check if the value matches
+                    isCorrect = userAnswer === correctAnswer[0];
+                }
+                
+                if (isCorrect) {
+                    correctCount++;
+                } else {
+                    wrongAnswers.push({
+                        question: question,
+                        questionNumber: index + 1,
+                        userAnswer: userAnswer
+                    });
+                }
+            });
+            
+            const percentage = Math.round((correctCount / testQuestions.length) * 100);
+            
+            // Display results
+            document.getElementById('quizContainer').style.display = 'none';
+            document.getElementById('resultsScreen').style.display = 'block';
+            
+            document.getElementById('scoreDisplay').textContent = percentage + '%';
+            document.getElementById('scoreText').textContent = 
+                `You got ${correctCount} out of ${testQuestions.length} questions correct.`;
+            
+            // Display wrong answers
+            displayWrongAnswers(wrongAnswers);
+        }
+        
+        function displayWrongAnswers(wrongAnswers) {
+            const wrongAnswersList = document.getElementById('wrongAnswersList');
+            wrongAnswersList.innerHTML = '';
+            
+            if (wrongAnswers.length > 0) {
+                wrongAnswers.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'wrong-question';
+                    
+                    let yourAnswerText = 'Not answered';
+                    if (item.userAnswer !== null) {
+                        if (Array.isArray(item.userAnswer)) {
+                            if (item.userAnswer.length > 0) {
+                                yourAnswerText = item.userAnswer.map(i => item.question.choices[i]).join(', ');
+                            }
+                        } else {
+                            yourAnswerText = item.question.choices[item.userAnswer];
+                        }
+                    }
+                    
+                    const correctAnswerText = item.question.correct.map(i => item.question.choices[i]).join(', ');
+                    
+                    let imageHtml = '';
+                    if (item.question.image) {
+                        imageHtml = `
+                            <div class="question-image">
+                                <img src="${item.question.image}" alt="Question ${item.questionNumber} Image">
+                            </div>
+                        `;
+                    }
+                    
+                    div.innerHTML = `
+                        <h4>Question ${item.questionNumber}: ${item.question.question}</h4>
+                        ${imageHtml}
+                        <p class="your-answer">Your answer: ${yourAnswerText}</p>
+                        <p class="correct-answer">Correct answer: ${correctAnswerText}</p>
+                        ${item.question.explanation ? `<p><strong>Explanation:</strong> ${item.question.explanation}</p>` : ''}
+                    `;
+                    
+                    wrongAnswersList.appendChild(div);
+                });
+            } else {
+                document.getElementById('resultsDetails').innerHTML = 
+                    '<p style="text-align: center; color: #2e7d32; font-size: 20px;">Perfect score! All answers were correct!</p>';
+            }
+        }
+        
+        function restartTest() {
+            document.getElementById('resultsScreen').style.display = 'none';
+            document.getElementById('startScreen').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
